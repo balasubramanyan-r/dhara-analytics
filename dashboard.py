@@ -25,19 +25,18 @@ creds = ServiceAccountCredentials.from_json_keyfile_dict(
     creds_dict, scope
 )
 
-    client = gspread.authorize(creds)
+client = gspread.authorize(creds)
 
-    sheet = client.open("RealEstate_Marketing_Data")
+sheet = client.open("RealEstate_Marketing_Data")
 
-    campaign_sheet = sheet.worksheet("Campaign_Data")
-    visit_sheet = sheet.worksheet("Site_Visits")
-    booking_sheet = sheet.worksheet("Bookings")
+campaign_sheet = sheet.worksheet("Campaign_Data")
+visit_sheet = sheet.worksheet("Site_Visits")
+booking_sheet = sheet.worksheet("Bookings")
+campaign_df = pd.DataFrame(campaign_sheet.get_all_records())
+visit_df = pd.DataFrame(visit_sheet.get_all_records())
+booking_df = pd.DataFrame(booking_sheet.get_all_records())
 
-    campaign_df = pd.DataFrame(campaign_sheet.get_all_records())
-    visit_df = pd.DataFrame(visit_sheet.get_all_records())
-    booking_df = pd.DataFrame(booking_sheet.get_all_records())
-
-    return campaign_df, visit_df, booking_df
+return campaign_df, visit_df, booking_df
 
 
 df, visit_df, booking_df = load_data()
@@ -117,3 +116,4 @@ st.subheader("Campaign Data")
 
 
 st.dataframe(df)
+
