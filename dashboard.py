@@ -17,9 +17,13 @@ def load_data():
         "https://www.googleapis.com/auth/drive"
     ]
 
-    creds = ServiceAccountCredentials.from_json_keyfile_name(
-        "realestateanalytics-489603-2e82bee42942.json", scope
-    )
+import json
+
+creds_dict = st.secrets["gcp_service_account"]
+
+creds = ServiceAccountCredentials.from_json_keyfile_dict(
+    creds_dict, scope
+)
 
     client = gspread.authorize(creds)
 
@@ -110,5 +114,6 @@ st.plotly_chart(fig2, width='stretch')
 
 # Data table
 st.subheader("Campaign Data")
+
 
 st.dataframe(df)
